@@ -1,0 +1,5 @@
+# Use a lightweight base image
+FROM alpine:latest
+
+# Set the command to run a loop that echoes "hello world" every 3 seconds
+CMD while true; do echo "hello world"; sleep 3; done

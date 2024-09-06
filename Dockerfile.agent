@@ -1,0 +1,13 @@
+# Stage 1: Build the Go binary
+FROM golang:1.23-alpine3.19 as go-build
+WORKDIR /go/src/app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+    go build -ldflags="-w -s" -o /go/bin/agent cmd/agent/main.go
+
+# Stage 2: Create the final image
+FROM scratch
+COPY --from=go-build /go/bin/agent /go/bin/agent
+CMD [ "/go/bin/agent" ]

@@ -1,0 +1,27 @@
+services:
+  ui:
+    container_name: ui
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
+  agent:
+    container_name: agent
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    ports:
+      - "8888:8888"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  test_logs:
+    container_name: test_logs
+    build:
+      context: .
+      dockerfile: Dockerfile.test_logs
+  example_client:
+    container_name: example_client
+    build:
+      context: .
+      dockerfile: Dockerfile.example_client
+    ports:
+      - "8080:8080"

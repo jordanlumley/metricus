@@ -1,0 +1,12 @@
+# Stage 1: Build the SvelteKit app
+FROM node:18 AS ui-build
+WORKDIR /app
+COPY agent/ui/ .
+RUN npm install && npm run build
+
+# Stage 2: Serve the SvelteKit app
+FROM node:18 AS ui-serve
+WORKDIR /app
+COPY --from=ui-build /app/build /app/build
+RUN npm install -g serve
+CMD ["serve", "-s", "build", "-l", "3000"]
