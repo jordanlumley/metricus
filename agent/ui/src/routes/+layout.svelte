@@ -1,16 +1,13 @@
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="/">Docky</a>
-  </div>
-
-  <div class="navbar-menu">
-    <div class="navbar-end">
-      <a class="navbar-item" href="/">Home</a>
-      <a class="navbar-item" href="/dashboard">Dashboard</a>
-      <a class="navbar-item" href="/containers">Containers</a>
-      <a class="navbar-item" href="/settings">Settings</a>
-    </div>
-  </div>
+<nav>
+  <ul>
+    <li><strong>Metricus</strong></li>
+  </ul>
+  <ul>
+    <li><a class="navbar-item" href="/">Home</a></li>
+    <li><a class="navbar-item" href="/dashboard">Dashboard</a></li>
+    <li><a class="navbar-item" href="/metrics">Metrics</a></li>
+    <li><a class="navbar-item" href="/containers">Containers</a></li>
+    <li><a class="navbar-item" href="/settings">Settings</a></li>
+  </ul>
 </nav>
-
 <slot></slot>

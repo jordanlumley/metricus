@@ -4,7 +4,6 @@
   import ContainerLogs from "$lib/components/ContainerLogs.svelte";
 
   export let data;
-  let logs = [];
 </script>
 
 <ContainerDetails containerId={data.slug} />

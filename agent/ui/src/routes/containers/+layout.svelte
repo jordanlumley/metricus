@@ -1,21 +1,16 @@
 <script>
   import { fetchContainers } from "$lib";
-  import { onMount } from "svelte";
-
-  onMount(() => {});
 </script>
 
-<div class="columns is-mobile">
-  <div class="column is-3">
+<div class="grid">
+  <div>
     {#await fetchContainers()}
-      <p>Loading...</p>
+      <p>loading</p>
     {:then containers}
       <ul>
         {#each containers as container}
           <li>
-            <a data-sveltekit-reload href="/containers/{container.Id}"
-              >{container.Image}</a
-            >
+            <a href="/containers/{container.Id}">{container.Image}</a>
           </li>
         {/each}
       </ul>
@@ -23,5 +18,7 @@
       <p>{error.message}</p>
     {/await}
   </div>
-  <div class="column"><slot></slot></div>
+  <div>
+    <slot></slot>
+  </div>
 </div>

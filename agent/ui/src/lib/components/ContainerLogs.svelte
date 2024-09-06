@@ -1,48 +1,55 @@
-<script>
-  import { onMount } from "svelte";
+<script lang="ts">
+  import { onDestroy, onMount } from "svelte";
+  import type { Terminal } from "xterm";
 
   export let containerId;
 
-  let logs = [];
   let terminalContainer;
-  let term;
+  let term: Terminal;
+  let logsEventSource;
 
   onMount(async () => {
-    term = new Terminal();
-    term.open(terminalContainer);
+    if (typeof window !== "undefined") {
+      const { Terminal } = await import("xterm");
+      import("xterm/css/xterm.css");
 
-    const logsEventSource = new EventSource(
-      `http://localhost:8888/api/v1/containers/${containerId}/logs/events`
+      term = new Terminal({
+        cursorBlink: true,
+        rows: 24,
+        cols: 80,
+        theme: {
+          background: "#262C36",
+        },
+      });
+      term.open(terminalContainer);
+    }
+  });
+
+  // Reactive statement to handle containerId changes
+  $: if (term && containerId) {
+    term.clear();
+    loadLogs(containerId);
+  }
+
+  function loadLogs(id) {
+    // If an EventSource is already open, close it
+    if (logsEventSource) {
+      logsEventSource.close();
+    }
+
+    logsEventSource = new EventSource(
+      `http://localhost:8888/api/v1/containers/${id}/logs/events`
     );
     logsEventSource.onmessage = (event) => {
-      //   logs = [event.data, ...logs];
       term.write(event.data + "\r\n");
     };
+  }
 
-    return () => {
+  onDestroy(() => {
+    if (logsEventSource) {
       logsEventSource.close();
-    };
+    }
   });
 </script>
 
-<svelte:head>
-  <script
-    src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"
-  ></script>
-  <link
-    href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css"
-    rel="stylesheet"
-  />
-</svelte:head>
-
-<div class="card">
-  <header class="card-header">
-    <p class="card-header-title">Container</p>
-  </header>
-  <div class="card-content" id="logsView">
-    <div bind:this={terminalContainer} id="terminal"></div>
-    {#each logs as log}
-      <p>{log}</p>
-    {/each}
-  </div>
-</div>
+<div bind:this={terminalContainer} id="terminal"></div>

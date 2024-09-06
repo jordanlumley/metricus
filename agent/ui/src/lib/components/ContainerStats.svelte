@@ -41,47 +41,13 @@
   };
 </script>
 
-<svelte:head>
-  <script src="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.js"></script>
-  <link
-    href="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.css"
-    rel="stylesheet"
+{#if !stats}
+  <p>loading</p>
+{:else}
+  <ContainerDetailEntry title="Memory Usage %" content={memoryUsagePercent} />
+  <ContainerDetailEntry
+    title="Memory Limit"
+    content={stats.memory_stats.limit}
   />
-</svelte:head>
-<div class="card">
-  <header class="card-header">
-    <p class="card-header-title">Container</p>
-  </header>
-  <div class="card-content">
-    {#if !stats}
-      <div class="skeleton-block"><div></div></div>
-      <div class="skeleton-block"><div></div></div>
-      <div class="skeleton-block"><div></div></div>
-      <div class="skeleton-block"><div></div></div>
-      <div class="skeleton-block"><div></div></div>
-    {:else}
-      <div class="fixed-grid">
-        <div class="grid">
-          <div class="cell">
-            <ContainerDetailEntry
-              title="Memory Usage %"
-              content={memoryUsagePercent}
-            />
-          </div>
-          <div class="cell">
-            <ContainerDetailEntry
-              title="Memory Limit"
-              content={stats.memory_stats.limit}
-            />
-          </div>
-          <div class="cell">
-            <ContainerDetailEntry
-              title="CPU Usage %"
-              content={cpuUsagePercent}
-            />
-          </div>
-        </div>
-      </div>
-    {/if}
-  </div>
-</div>
+  <ContainerDetailEntry title="CPU Usage %" content={cpuUsagePercent} />
+{/if}
