@@ -21,3 +21,4 @@ start-agent-container:
 start-local: 
 	@echo "Running local"
 	docker compose up -d --build agent test_logs example_client
+	cd agent/ui && npm run dev

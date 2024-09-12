@@ -1,7 +1,5 @@
-<h1>Home</h1>
+<h1 class="text-3xl font-bold underline">Home</h1>
 
-<p>Welcome to Docky!</p>
+<button class="btn">Button</button>
 
-<style>
-  /* Override Bulma's dark theme background */
-</style>
+<input type="checkbox" value="dim" class="checkbox theme-controller" />

@@ -17,13 +17,21 @@
   });
 </script>
 
-<div>
-  {#if !Object.keys(metrics).length}
-    <p>loading</p>
-  {:else}
-    {#each Object.entries(metrics) as [key, value]}
-      <strong>{key}</strong>: {value}
-      <br />
-    {/each}
-  {/if}
+<div class="container mx-auto px-4">
+  <table class="table table-lg">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each Object.entries(metrics) as [key, value]}
+        <tr>
+          <td>{key}</td>
+          <td>{value}</td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
 </div>
